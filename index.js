@@ -1,18 +1,8 @@
 const express = require("express")
-const app = express()
+const postsRouter = require("./routes/posts")
 
-app.get("api/posts", (req,res) => {
-    res.send("returning all posts")
-})
-app.get("api/posts/:id", (req,res) => {
-    res.send("returning one post")
-})
-app.post("api/posts", (req,res) => {
-    res.send("created a post")
-})
-app.put("api/posts", (req,res) => {
-    res.send("updated a post")
-})
-app.delete("api/posts", (req,res) => {
-    res.send("deleted a post")
-})
+const app = express()
+app.use(express.json());
+
+app.use('/api/posts', postsRouter);
+app.listen(3000, () => console.log("running on 3000"))
