@@ -3,13 +3,15 @@ var router = express.Router();
 const Post = require('../database/models/posts')
 
 router
-    .get("/", ((req, res) => {
-        res.send("api/posts REQUEST RECEIVED")
+    .get("/", (async (req, res) => {
+        const results = await Post.find()
+        res.json(results)
     }))
-    .get("/:id", ((req, res) => {
-        res.send("api/posts/:id REQUEST RECEIVED")
+    .get("/:id", (async (req, res) => {
+        const {id} = req.params
+        const results = await Post.findById(id)
+        res.json(results)
     }))
-
     .post("/", (async (req, res) => {
         const {
             title,
@@ -26,11 +28,17 @@ router
         res.json(result)
     }))
 
-    .put("/:id", ((req, res) => {
-        res.send("api/posts/:id REQUEST RECEIVED")
+    .put("/:id", (async(req, res) => {
+        const {id} = req.params
+        const {body} = req
+        const updatedDocument = await Post.findByIdAndUpdate(id, body)
+        res.send(updatedDocument)
     }))
-    .delete("/:id", ((req, res) => {
-        res.send("api/posts/:id REQUEST RECEIVED")
+
+    .delete("/:id", (async (req, res) => {
+        const {id} = req.params
+        const response = await Post.findByIdAndDelete(id)
+        res.sendStatus(204)
     }))
 
 module.exports = router;
