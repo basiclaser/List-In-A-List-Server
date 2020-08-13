@@ -1,5 +1,7 @@
 const express = require("express")
 const postsRouter = require("./routes/posts")
+require("dotenv").config()
+require('./database/client')
 
 const app = express()
 app.use(express.json());
