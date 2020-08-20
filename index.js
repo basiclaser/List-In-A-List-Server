@@ -1,7 +1,7 @@
 const express = require("express")
 const postsRouter = require("./routes/posts")
-const commentsRouter = require("./routes/comments")
-// const groupedCommentsRouter = require("./routes/groupedComments")
+// const commentsRouter = require("./routes/comments")
+const groupedCommentsRouter = require("./routes/groupedComments")
 
 const cors = require("cors")
 require("dotenv").config()
@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(cors())
 
 app.use('/api/posts', postsRouter);
-app.use('/api/comments', commentsRouter);
-// app.use('/api/groupedcomments', groupedCommentsRouter);
+// app.use('/api/comments', commentsRouter);
+app.use('/api/groupedcomments', groupedCommentsRouter);
 
 // error middleware
 app.use((err, req, res, next) => {
