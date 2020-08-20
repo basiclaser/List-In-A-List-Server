@@ -5,7 +5,7 @@ const Comment = require('../database/models/comments')
 router 
     .get("/:postId", (async (req, res, next) => { // get comments for this post 
         const {postId} = req.params
-        await Comment.findOne({postId})
+        await Comment.find({postId})
             .then(allDocuments => res.json(allDocuments))
             .catch(err => next(new Error(err)))
     }))
