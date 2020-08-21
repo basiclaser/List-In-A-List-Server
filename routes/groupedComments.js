@@ -1,6 +1,7 @@
 var express = require('express');
-var router = express.Router();
 const GroupedComment = require('../database/models/groupedComments')
+var router = express.Router();
+
 
 router 
     .get("/:postId", (async (req, res, next) => { // get comments for this post 
@@ -18,12 +19,12 @@ router
 
     .post("/:postId", (async (req, res, next) => { // create a comment
         const {postId} = req.params
-        const newComment = {...req.body, postId, createdAt: Date.now()}
+        const newComment = {...req.body}
         GroupedComment.findOneAndUpdate(
             { postId },
             { $push: { comments: newComment }},
             {upsert: true, new: true}
-        )
+        ) // update or insert // if this document doesn't exist, create it and update. If it exists, update it.
         .then(response => res.json(response))
         .catch(err => next(new Error(err)))   
     }))
