@@ -19,23 +19,13 @@ router
     .post("/:postId", (async (req, res, next) => { // create a comment
         const {postId} = req.params
         const newComment = {...req.body, postId, createdAt: Date.now()}
-
-
-            GroupedComment.findOneAndUpdate(
-                { postId }, 
-                { $push: { comments: newComment } , upsert:true},
-                function (error, success) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log(success);
-                        }
-                    }
-                )
-                .then(response => res.json(response))
-                .catch(err => next(new Error(err)))    
-
-
+        GroupedComment.findOneAndUpdate(
+            { postId },
+            { $push: { comments: newComment }},
+            {upsert: true, new: true}
+        )
+        .then(response => res.json(response))
+        .catch(err => next(new Error(err)))   
     }))
 
     .put("/:commentId", (async(req, res, next) => {
